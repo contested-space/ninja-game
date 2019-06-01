@@ -6,7 +6,7 @@ function Obstacle:new(position, speed, delay, generator)
    o = {}
    setmetatable(o, Obstacle)
    size = windowWidth/gridWidth
-   o.x = position * size
+   o.x = position * windowWidth
    o.y = 0
    o.width = size
    o.height = size
@@ -31,5 +31,45 @@ function Obstacle:draw()
    love.graphics.draw(self.imageFile, self.x, self.y, 0, 1, 1, 0, 0, 0, 0)
 end
 
-function Obstacle:hit_player()
+function Obstacle:collidesWith(other)
+   -- Intersection check between two rectangles
+   -- can be done this way:
+   --   Bx + Bw > Ax &&
+   --   By + Bh > Ay &&
+   --   Ax + Aw > Bx &&
+   --   Ay + Ah > By;
+
+   -- And translated to this:
+   return other:getX() + other:getWidth() > self.x and
+      other:getY() + other:getHeight() > self.y and
+      self.x + self.width > other:getX() and
+      self.y + self.height > other:getY()
+end
+
+function Obstacle:setVelRight()
+   if self.vel_x < 0 then
+      self.vel_x = self.vel_x * -1
+   end
+end
+
+function Obstacle:setVelLeft()
+   if self.vel_x > 0 then
+      self.vel_x = self.vel_x * -1
+   end
+end
+
+function Obstacle:getY()
+   return self.y
+end
+
+function Obstacle:getX()
+   return self.x
+end
+
+function Obstacle:getHeight()
+   return self.height
+end
+
+function Obstacle:getWidth()
+   return self.width
 end

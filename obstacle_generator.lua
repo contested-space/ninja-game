@@ -15,9 +15,9 @@ function ObstacleGenerator:new()
 end
 
 function ObstacleGenerator:trigger_full_line()
-   for i = 0, 10, 1
+   for i = 0, 9, 1
    do
-      obs = Obstacle:new(i, 100)
+      obs = Obstacle:new(i * 0.1, 400)
       -- table.insert(self.updateable, obs)
       -- table.insert(self.drawable, obs)
       self.obstacles[obs] = 1

@@ -25,10 +25,12 @@ function love.load()
    -- drawable = {obstacle0, obstacle1, obstacle2}
 
    gen = ObstacleGenerator:new()
-   gen:trigger_full_line()
+   --gen:trigger_full_line()
 
    updateable = {gen, char}
    drawable = {background, gen, char}
+   delay = 0
+   last = os.clock()
 
 end
 
@@ -41,6 +43,11 @@ function love.update(dt)
       for i, el in pairs(updateable) do
          el:update(dt)
       end
+   end
+   if os.clock() > last + delay then
+      gen:trigger_full_line()
+      delay = math.random(1, 10) * 0.01
+      last = os.clock()
    end
 end
 
