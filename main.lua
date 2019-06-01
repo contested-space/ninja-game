@@ -1,4 +1,5 @@
 require "obstacle"
+require "obstacle_generator"
 
 
 function love.load()
@@ -6,12 +7,18 @@ function love.load()
    windowHeight = love.graphics.getHeight()
    gridWidth = 10
 
-   obstacle0 = Obstacle:new(2, 10)
-   obstacle1 = Obstacle:new(5, 10)
-   obstacle2 = Obstacle:new(7, 10)
+   -- obstacle0 = Obstacle:new(2, 10)
+   -- obstacle1 = Obstacle:new(5, 10)
+   -- obstacle2 = Obstacle:new(7, 10)
 
-   updateable = {obstacle0, obstacle1, obstacle2}
-   drawable = {obstacle0, obstacle1, obstacle2}
+   -- updateable = {obstacle0, obstacle1, obstacle2}
+   -- drawable = {obstacle0, obstacle1, obstacle2}
+
+   gen = ObstacleGenerator:new()
+   gen:trigger_full_line()
+
+   updateable = {gen}
+   drawable = {gen}
 end
 
 

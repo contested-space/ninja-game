@@ -1,7 +1,7 @@
 Obstacle = {}
 Obstacle.__index = Obstacle
 
-function Obstacle:new(position, speed)
+function Obstacle:new(position, speed, delay)
    local o
    o = {}
    setmetatable(o, Obstacle)
