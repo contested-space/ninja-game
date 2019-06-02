@@ -17,7 +17,7 @@ function Dash:new(x, y)
 
    -- seconds
    self.cooldown = 2
-   self.useCooldownSetting = 0.5
+   self.useCooldownSetting = 0.3
    self.useCooldown = 0
 
    self.tick = 0

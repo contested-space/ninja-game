@@ -1,6 +1,7 @@
 require "settings"
 require "utils"
 require "dash"
+require "mirage"
 
 Char = {}
 Char.__index = Char
@@ -19,6 +20,8 @@ function Char:new(x,y)
    obj.direction = 1
 
    obj.dash = Dash:new(10, 10)
+
+   obj.mirage = Mirage:new(obj)
 
    return obj
 end
@@ -63,6 +66,7 @@ function Char:update(dt)
       if dashDist < 0 then
          dashDist = 0
       end
+      self.mirage:activate(dashDist)
       self.x = dashDist
    end
 
@@ -73,10 +77,12 @@ function Char:update(dt)
       if dashDist > windowWidth then
          dashDist = windowWidth - self.w * xscale
       end
+      self.mirage:activate(dashDist)
       self.x = dashDist
    end
 
    self.dash:update(dt)
+   self.mirage:update(dt)
 end
 
 function Char:draw()
@@ -86,6 +92,7 @@ function Char:draw()
    --    self.x, self.y,
    --    self.w * xscale, self.h * yscale)
    self.dash:draw()
+   self.mirage:draw()
 
    local offset = 0
    if self.direction < 0 then
