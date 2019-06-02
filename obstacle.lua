@@ -11,8 +11,8 @@ function Obstacle:new(position, delay, object)
    o.imageFile = imageFile
    o.x = position * windowWidth
    o.y = -100
-   o.width = imageFile:getWidth()
-   o.height = imageFile:getHeight()
+   o.width = imageFile:getWidth() * xscale
+   o.height = imageFile:getHeight() * yscale
    
    o.speed = falling_speed
    o.velocity = 0
