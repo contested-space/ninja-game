@@ -5,6 +5,8 @@ require "background"
 require "settings"
 
 function love.load()
+   love.graphics.setDefaultFilter("nearest", "nearest", 1)
+
    sett = settings()
    windowWidth = love.graphics.getWidth()
    windowHeight = love.graphics.getHeight()
