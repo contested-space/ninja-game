@@ -41,7 +41,7 @@ end
 
 function Obstacle:draw()
    -- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-   love.graphics.draw(self.imageFile, self.x, self.y, 0, 1, 1, 0, 0, 0, 0)
+   love.graphics.draw(self.imageFile, self.x, self.y, 0, xscale, yscale, 0, 0)
 end
 
 function Obstacle:collidesWith(other)
