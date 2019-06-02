@@ -15,12 +15,16 @@ function Char:new(x,y)
    obj.y = y
    obj.w = 32
    obj.h = obj.img:getHeight()
-   obj.speed = 400
+   obj.speed = 100 * xscale
    obj.direction = 1
 
+   local barWidth = 50 * xscale
+   local barHeight = 10 * yscale
+
    obj.bar = Bar:new(
-      0, 0,
-      100, 10,
+      windowWidth - barWidth,
+      windowHeight - barHeight,
+      barWidth, barHeight - 10,
       0, 100)
 
    return obj
@@ -30,6 +34,8 @@ function Char:update(dt)
    self.bar:update(dt)
 
    self.active = false
+
+   ---- TODO needs refactoring ----
 
    if love.keyboard.isDown("s") then
       -- left
@@ -45,20 +51,41 @@ function Char:update(dt)
       self.x = self.x + self.speed * dt
    end
 
-   if love.keyboard.isDown("a") then
+
+   if love.keyboard.isDown("a") and not self.bar:isZero() then
       -- dash left
       self.active = true
       self.direction = -1
+
       self.bar:unstep()
-      self.x = self.x - self.speed* dt * 2
+
+      self.x = self.x - self.speed* dt * 3
+   elseif love.keyboard.isDown("a") then
+      -- left
+      self.bar:unstep()
+      self.bar:unstep()
+
+      self.active = true
+      self.direction = -1
+      self.x = self.x - self.speed * dt
    end
 
-   if love.keyboard.isDown("l") then
+   if love.keyboard.isDown("l") and not self.bar:isZero() then
       -- dash right
       self.active = true
       self.direction = 1
+
       self.bar:unstep()
-      self.x = self.x + self.speed* dt * 2
+
+      self.x = self.x + self.speed* dt * 3
+   elseif love.keyboard.isDown("l") then
+      -- right
+      self.bar:unstep()
+      self.bar:unstep()
+
+      self.active = true
+      self.direction = 1
+      self.x = self.x + self.speed * dt
    end
 
    self.animation.currentTime = self.animation.currentTime + dt

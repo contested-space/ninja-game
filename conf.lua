@@ -6,6 +6,6 @@ function love.conf(t)
    t.version = "11.2"
    t.window.width = s.window.x
    t.window.height = s.window.y
-   t.window.fullscreen = true
    t.window.title = "move-in ninja: and the evil JPS"
+   t.window.fullscreen = true
 end

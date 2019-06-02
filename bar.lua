@@ -13,7 +13,7 @@ function Bar:new(x, y, w, h, from, to)
    obj.current = to
 
    obj.currentTime = 0
-   obj.timestep = 0.1
+   obj.timestep = 0.04
 
    return obj
 end
@@ -43,13 +43,16 @@ function Bar:unstep()
    self.current = self.current - 1
 end
 
-function Bar:notZero()
-   return self.current > 0
+function Bar:isZero()
+   return self.current == 0
+end
+
+function Bar:getCurrent()
+   return self.current
 end
 
 function Bar:draw()
    love.graphics.setColor(0.4,0,0)
-
    love.graphics.rectangle(
       "fill",
       self.x, self.y,
@@ -57,11 +60,10 @@ function Bar:draw()
    )
 
    love.graphics.setColor(1,0,0)
-
    love.graphics.rectangle(
       "fill",
-      self.x, self.y,
-      self.w * self.current / self.to, self.h
+      self.x + 1, self.y + 1,
+      (self.w * self.current / self.to) - 1, self.h - 1
    )
 
    love.graphics.setColor(255,255,255)
