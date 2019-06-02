@@ -15,12 +15,12 @@ function ObstacleGenerator:new()
 end
 
 function ObstacleGenerator:trigger()
-   evt = math.random(0, 100)
-   if evt <= 40 then
+   evt = math.random()
+   if evt <= 0.8 then
       self:trigger_single_random()
-   elseif evt <45  then
+   elseif evt < 0.9  then
       self:trigger_diagonal_jars()
-   elseif evt < 49 then
+   elseif evt < 0.95 then
       self:trigger_full_line()
    end
 
@@ -43,28 +43,36 @@ function ObstacleGenerator:trigger_full_line()
    do
       -- split the screen in N units and add N/2 to center things
       pos = i /nbBoxes - 0.5 / nbBoxes + offset
-      obs = Obstacle:new(pos, i * 0.01, "jar0")
+      obs = Obstacle:new(pos, 0, "box")
       self.obstacles[obs] = 1
    end
 end
 
 function ObstacleGenerator:trigger_diagonal_jars()
-   nbBoxes = math.random(2, 7)
+   nbBoxes = math.random(4, 8)
 
-   direction = math.random(-1, 1)
-   if direction == 1 then
+   rnd = math.random()
+   if rnd <= 0.5 then
       jar = "jar0"
-   elseif direction == -1 then
-      jar = "jar1"
+      direction = true
    else
-      jar = "box"
+      jar = "jar1"
+      direction = false
    end
    
-   offset = math.random() - 0.5
+   offset = (math.random() - 0.5) * 0.25
+   -- offset = 0
+   delta = math.random() * 0.5
+   -- delta = 0.1
    for i=1, nbBoxes, 1
    do
+      if direction then
+	 delay = i * delta
+      else
+	 delay = (nbBoxes - i) * delta
+      end
       pos = i /nbBoxes - 0.5 / nbBoxes + offset
-      obs = Obstacle:new(pos, i * 0.1 * direction, jar)
+      obs = Obstacle:new(pos, delay, jar)
       self.obstacles[obs] = 1
    end
 end

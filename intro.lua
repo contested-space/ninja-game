@@ -5,13 +5,13 @@ require "utils"
 Intro = {}
 Intro.__index = Intro
 
-function Intro:new()
+function Intro:new(dur)
    local obj = {}
    setmetatable(obj,Intro)
 
    obj.img = love.graphics.newImage("img/Scene.png")
    print(obj.img)
-   obj.duration = intro_duration
+   obj.duration = dur
    obj.animation = newAnimation(obj.img, obj.img:getWidth()/31, obj.img:getHeight(),  obj.duration)
    obj.x = 0
    obj.y = 0

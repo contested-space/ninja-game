@@ -35,7 +35,7 @@ function love.load()
    gen = ObstacleGenerator:new()
    --gen:trigger_full_line()
 
-   intro_animation = Intro:new()
+   intro_animation = Intro:new(intro_duration)
 
    
    updateable = {gen, char, intro_animation}
@@ -45,8 +45,9 @@ function love.load()
       gen,
       char,
       score}
-   delay = intro_animation.duration * 0.1
-   last = os.clock() + intro_animation.duration * 0.1
+   delay = 0
+   last = love.timer.getTime() + intro_animation.duration
+   start = last
    
 end
 
@@ -56,25 +57,33 @@ function love.update(dt)
    end
 
    if gameState == "main" then
+      if love.timer.getTime() > last + delay then
+	 gen:trigger()
+	 dur = love.timer.getTime() - start
+	 difficulty = dur + 60
+	 print(dur)
+	 print(difficulty)
+	 delay = (math.random() / difficulty) * 100
+	 last = love.timer.getTime()
+      end
       for i, el in pairs(updateable) do
          el:update(dt)
       end
    elseif gameState == "intro" then
       intro_animation:update(dt)
-      print("state_intro")
-      print(last)
-      print(os.clock())
-      if os.clock() > last then
-	 print("clock > last")
+      if love.keyboard.isDown("space") then
+	 delay = 0
+	 gameState = "main"
+	 start = love.timer.getTime()
+	 last = start
+      end
+      
+      
+      if love.timer.getTime() > last then
+
 	 gameState = "main"
       end
    end
-   if os.clock() > last + delay then
-      gen:trigger()
-      delay = math.random(1, 3) * 0.01
-      last = os.clock()
-   end
-
 end
 
 function love.draw()

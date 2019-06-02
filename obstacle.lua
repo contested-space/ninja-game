@@ -9,7 +9,7 @@ function Obstacle:new(position, delay, object)
    imageFile = love.graphics.newImage(asset)
    o.imageFile = imageFile
    o.x = position * windowWidth
-   o.y = -300
+   o.y = -500
    o.width = imageFile:getWidth() * xscale
    o.height = imageFile:getHeight() * yscale
    
@@ -18,14 +18,14 @@ function Obstacle:new(position, delay, object)
    o.accleration = acceleration
    
    o.delay = delay
-   o.start_time = os.clock()
+   o.start_time = love.timer.getTime()
 
    return o
 end
 
 
 function Obstacle:update(dt)
-   if os.clock() > self.start_time + self.delay then
+   if love.timer.getTime() > self.start_time + self.delay then
       -- self.y = self.y + self.speed * dt
 
       self.y = self.y + dt * (self.velocity + dt * acceleration / 2)
