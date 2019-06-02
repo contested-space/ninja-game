@@ -23,7 +23,7 @@ function Obstacle:new(position, delay, object)
    o.start_time = love.timer.getTime()
 
    o.exploding = false
-   o.explosion_dur = 1
+   o.explosion_dur = 0.3
    o.expiration = 0
 
    return o
