@@ -1,6 +1,7 @@
 require "settings"
 require "utils"
 require "dash"
+require "mirage"
 
 Char = {}
 Char.__index = Char
@@ -18,41 +19,70 @@ function Char:new(x,y)
    obj.speed = 100 * xscale
    obj.direction = 1
 
-   obj.dashing = false
    obj.dash = Dash:new(10, 10)
+
+   obj.mirage = Mirage:new(obj)
 
    return obj
 end
 
 function Char:update(dt)
-   self.bar:update(dt)
-
    self.active = false
+
+   self.animation.currentTime = self.animation.currentTime + dt
 
    if love.keyboard.isDown("s") then
       -- left
       self.active = true
       self.direction = -1
-      self.x = self.x - self.speed * dt
+
+      -- snap to left
+      local dist = self.x - self.speed * dt
+      if dist <= 0 then
+         dist = 0
+         self.active = false
+      end
+      self.x = dist
    end
 
    if love.keyboard.isDown("k") then
       -- right
       self.active = true
       self.direction = 1
-      self.x = self.x + self.speed * dt
+
+      -- snap to left
+      local dist = self.x + self.speed * dt
+      if dist > windowWidth - self.w * xscale then
+         dist = windowWidth - self.w * xscale
+         self.active = false
+      end
+      self.x = dist
    end
 
-
-   if love.keyboard.isDown("a") and not false then
+   if love.keyboard.isDown("a") and self.dash:canUse() then
       -- dash left
+      self.dash:use()
+      local dashDist  = self.x - 100 * xscale
+      if dashDist < 0 then
+         dashDist = 0
+      end
+      self.mirage:activate(dashDist)
+      self.x = dashDist
    end
 
-   if love.keyboard.isDown("l") and not false then
+   if love.keyboard.isDown("l") and self.dash:canUse() then
       -- dash right
+      self.dash:use()
+      local dashDist = self.x + 100 * xscale
+      if dashDist > windowWidth then
+         dashDist = windowWidth - self.w * xscale
+      end
+      self.mirage:activate(dashDist)
+      self.x = dashDist
    end
 
-   self.animation.currentTime = self.animation.currentTime + dt
+   self.dash:update(dt)
+   self.mirage:update(dt)
 end
 
 function Char:draw()
@@ -62,6 +92,7 @@ function Char:draw()
    --    self.x, self.y,
    --    self.w * xscale, self.h * yscale)
    self.dash:draw()
+   self.mirage:draw()
 
    local offset = 0
    if self.direction < 0 then

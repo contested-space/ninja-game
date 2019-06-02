@@ -1,3 +1,5 @@
+math.randomseed(os.time())
+
 function newAnimation(image, width, height, duration)
    local animation = {}
 
