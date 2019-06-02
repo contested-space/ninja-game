@@ -10,6 +10,7 @@ function love.load()
    windowHeight = love.graphics.getHeight()
    xscale = windowWidth / sett.window.x
    yscale = windowHeight / sett.window.y
+   acceleration = 600
 
    gridWidth = 10
    gameState = "main"
@@ -45,8 +46,8 @@ function love.update(dt)
       end
    end
    if os.clock() > last + delay then
-      gen:trigger_full_line()
-      delay = math.random(1, 10) * 0.01
+      gen:trigger()
+      delay = math.random(1, 3) * 0.01
       last = os.clock()
    end
 end

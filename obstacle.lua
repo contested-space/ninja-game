@@ -1,25 +1,38 @@
 Obstacle = {}
 Obstacle.__index = Obstacle
 
-function Obstacle:new(position, speed, delay, generator)
+function Obstacle:new(position, delay, object)
+   print(object)
    local o
    o = {}
    setmetatable(o, Obstacle)
-   size = windowWidth/gridWidth
+   asset = selectObject(object)
+   imageFile = love.graphics.newImage(asset)
+   o.imageFile = imageFile
    o.x = position * windowWidth
-   o.y = 0
-   o.width = size
-   o.height = size
-   o.speed = speed
-   o.generator = generator
-   o.imageFile = love.graphics.newImage("img/Bawks.png")
+   o.y = -100
+   o.width = imageFile:getWidth()
+   o.height = imageFile:getHeight()
+   
+   o.speed = falling_speed
+   o.velocity = 0
+   o.accleration = acceleration
+   
+   o.delay = delay
+   o.start_time = os.clock()
 
    return o
 end
 
 
 function Obstacle:update(dt)
-   self.y = self.y + self.speed * dt
+   if os.clock() > self.start_time + self.delay then
+      -- self.y = self.y + self.speed * dt
+
+      self.y = self.y + dt * (self.velocity + dt * acceleration / 2)
+      self.velocity = self.velocity + dt * acceleration
+      
+   end
    if self.y > windowHeight then
       gen:destroy(self)
    end
@@ -72,4 +85,16 @@ end
 
 function Obstacle:getWidth()
    return self.width
+end
+
+function selectObject(object)
+   objects = {}
+   objects["box"] = "img/Bawks.png"
+   objects["big_piano"] = "img/BiggerPiano.png"
+   objects["jar0"] = "img/Jaro.png"
+   objects["jar1"] = "img/JaroAltColor.png"
+   objects["piano"] = "img/Piano.png"
+
+   return objects[object]
+   --return "img/Bawks.png"
 end
