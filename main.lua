@@ -4,6 +4,7 @@ require "obstacle_generator"
 require "background"
 require "settings"
 require "score"
+require "intro"
 
 function love.load()
    love.graphics.setDefaultFilter("nearest", "nearest", 1)
@@ -18,7 +19,8 @@ function love.load()
    acceleration = 600
 
    gridWidth = 10
-   gameState = "main"
+   gameState = "intro"
+   intro_duration = 10
 
    background = Background:new()
    char = Char:new(windowWidth / 2, windowHeight * 0.57)
@@ -33,16 +35,19 @@ function love.load()
    gen = ObstacleGenerator:new()
    --gen:trigger_full_line()
 
-   updateable = {gen, char}
+   intro_animation = Intro:new()
+
+   
+   updateable = {gen, char, intro_animation}
 
    drawable = {
       background,
       gen,
       char,
       score}
-
-   delay = 0
-   last = os.clock()
+   delay = intro_animation.duration * 0.1
+   last = os.clock() + intro_animation.duration * 0.1
+   
 end
 
 function love.update(dt)
@@ -54,12 +59,22 @@ function love.update(dt)
       for i, el in pairs(updateable) do
          el:update(dt)
       end
+   elseif gameState == "intro" then
+      intro_animation:update(dt)
+      print("state_intro")
+      print(last)
+      print(os.clock())
+      if os.clock() > last then
+	 print("clock > last")
+	 gameState = "main"
+      end
    end
    if os.clock() > last + delay then
       gen:trigger()
       delay = math.random(1, 3) * 0.01
       last = os.clock()
    end
+
 end
 
 function love.draw()
@@ -67,5 +82,7 @@ function love.draw()
       for i, el in pairs(drawable) do
          el:draw()
       end
+   elseif gameState == "intro" then
+      intro_animation:draw(dt)
    end
 end
