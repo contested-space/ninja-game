@@ -1,6 +1,5 @@
 require "settings"
 require "utils"
-require "bar"
 require "dash"
 
 Char = {}
@@ -20,16 +19,6 @@ function Char:new(x,y)
    obj.direction = 1
 
    obj.dashing = false
-
-   local barWidth = 50 * xscale
-   local barHeight = 10 * yscale
-
-   obj.bar = Bar:new(
-      windowWidth - barWidth,
-      windowHeight - barHeight,
-      barWidth, barHeight - 10,
-      0, 100)
-
    obj.dash = Dash:new(10, 10)
 
    return obj
@@ -39,8 +28,6 @@ function Char:update(dt)
    self.bar:update(dt)
 
    self.active = false
-
-   ---- TODO needs refactoring ----
 
    if love.keyboard.isDown("s") then
       -- left
@@ -57,40 +44,12 @@ function Char:update(dt)
    end
 
 
-   if love.keyboard.isDown("a") and not self.bar:isZero() then
+   if love.keyboard.isDown("a") and not false then
       -- dash left
-      self.active = true
-      self.direction = -1
-
-      self.bar:unstep()
-
-      self.x = self.x - self.speed* dt * 3
-   elseif love.keyboard.isDown("a") then
-      -- left
-      self.bar:unstep()
-      self.bar:unstep()
-
-      self.active = true
-      self.direction = -1
-      self.x = self.x - self.speed * dt
    end
 
-   if love.keyboard.isDown("l") and not self.bar:isZero() then
+   if love.keyboard.isDown("l") and not false then
       -- dash right
-      self.active = true
-      self.direction = 1
-
-      self.bar:unstep()
-
-      self.x = self.x + self.speed* dt * 3
-   elseif love.keyboard.isDown("l") then
-      -- right
-      self.bar:unstep()
-      self.bar:unstep()
-
-      self.active = true
-      self.direction = 1
-      self.x = self.x + self.speed * dt
    end
 
    self.animation.currentTime = self.animation.currentTime + dt
@@ -102,7 +61,6 @@ function Char:draw()
    --    "fill",
    --    self.x, self.y,
    --    self.w * xscale, self.h * yscale)
-   self.bar:draw()
    self.dash:draw()
 
    local offset = 0
