@@ -5,6 +5,7 @@ require "background"
 require "settings"
 require "score"
 require "intro"
+require "game_over"
 
 function love.load()
    ninjaTheme = love.audio.newSource("snd/move-in-ninja.ogg", "stream")
@@ -25,6 +26,7 @@ function love.load()
    gridWidth = 10
    gameState = "intro"
    intro_duration = 10
+   game_duration = 5
 
    background = Background:new()
    char = Char:new(windowWidth / 2, windowHeight * 0.57)
@@ -40,7 +42,7 @@ function love.load()
    --gen:trigger_full_line()
 
    intro_animation = Intro:new(intro_duration)
-
+   game_over_screen = GameOver:new()
 
    updateable = {gen, char, intro_animation}
 
@@ -65,27 +67,31 @@ function love.update(dt)
 	 gen:trigger()
 	 dur = love.timer.getTime() - start
 	 difficulty = dur + 60
-	 print(dur)
-	 print(difficulty)
 	 delay = (math.random() / difficulty) * 100
 	 last = love.timer.getTime()
       end
       for i, el in pairs(updateable) do
          el:update(dt)
       end
+      if love.timer.getTime() > game_duration + start then
+	 game_over()
+      end
    elseif gameState == "intro" then
       intro_animation:update(dt)
       if love.keyboard.isDown("space") then
 	 delay = 0
-	 gameState = "main"
-	 start = love.timer.getTime()
-	 last = start
+	 start_game()
       end
 
 
       if love.timer.getTime() > last then
 
-	 gameState = "main"
+	 start_game()
+      end
+   elseif gameState == "game_over" then
+      if love.keyboard.isDown("space") then
+	 delay = 0
+	 start_game()
       end
    end
 end
@@ -97,5 +103,20 @@ function love.draw()
       end
    elseif gameState == "intro" then
       intro_animation:draw(dt)
+   elseif gameState == "game_over" then
+      game_over_screen:draw()
    end
+      
+end
+
+function start_game()
+   gameState = "main"
+   start = love.timer.getTime()
+   last = start
+   game_end = start + game_duration
+   score.score = 0
+end
+
+function game_over()
+   gameState = "game_over"
 end
