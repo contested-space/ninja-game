@@ -15,7 +15,7 @@ function love.load()
    gameState = "main"
 
    background = Background:new()
-   char = Char:new(windowWidth / 2, windowHeight / 5)
+   char = Char:new(windowWidth / 2, windowHeight * 0.53)
 
    -- obstacle0 = Obstacle:new(2, 10)
    -- obstacle1 = Obstacle:new(5, 10)
@@ -31,7 +31,6 @@ function love.load()
    drawable = {background, gen, char}
    delay = 0
    last = os.clock()
-
 end
 
 function love.update(dt)

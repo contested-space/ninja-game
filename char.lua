@@ -55,9 +55,15 @@ function Char:update(dt)
 end
 
 function Char:draw()
+   -- hitbox
+   -- love.graphics.rectangle(
+   --    "fill",
+   --    self.x, self.y,
+   --    self.w * xscale, self.h * yscale)
+
    local offset = 0
    if self.direction < 0 then
-      offset = 96
+      offset = 32 * yscale
    end
 
    if not self.active then
@@ -78,11 +84,8 @@ function Char:draw()
    love.graphics.draw(
       self.animation.spritesheet,
       self.animation.quads[spriteNum],
-
       self.x + offset, self.y, 0,
-
       self.direction * xscale,
       yscale,
-
       self.width, 0)
 end
