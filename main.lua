@@ -3,9 +3,12 @@ require "obstacle"
 require "obstacle_generator"
 require "background"
 require "settings"
+require "score"
 
 function love.load()
    love.graphics.setDefaultFilter("nearest", "nearest", 1)
+
+   score = Score:new(10, 10)
 
    sett = settings()
    windowWidth = love.graphics.getWidth()
@@ -31,7 +34,13 @@ function love.load()
    --gen:trigger_full_line()
 
    updateable = {gen, char}
-   drawable = {background, gen, char}
+
+   drawable = {
+      background,
+      gen,
+      char,
+      score}
+
    delay = 0
    last = os.clock()
 end

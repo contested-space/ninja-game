@@ -1,5 +1,6 @@
 require "settings"
 require "utils"
+require "bar"
 
 Char = {}
 Char.__index = Char
@@ -14,13 +15,20 @@ function Char:new(x,y)
    obj.y = y
    obj.w = 32
    obj.h = obj.img:getHeight()
-   obj.speed = 100
+   obj.speed = 400
    obj.direction = 1
+
+   obj.bar = Bar:new(
+      0, 0,
+      100, 10,
+      0, 100)
 
    return obj
 end
 
 function Char:update(dt)
+   self.bar:update(dt)
+
    self.active = false
 
    if love.keyboard.isDown("s") then
@@ -41,6 +49,7 @@ function Char:update(dt)
       -- dash left
       self.active = true
       self.direction = -1
+      self.bar:unstep()
       self.x = self.x - self.speed* dt * 2
    end
 
@@ -48,6 +57,7 @@ function Char:update(dt)
       -- dash right
       self.active = true
       self.direction = 1
+      self.bar:unstep()
       self.x = self.x + self.speed* dt * 2
    end
 
@@ -60,6 +70,7 @@ function Char:draw()
    --    "fill",
    --    self.x, self.y,
    --    self.w * xscale, self.h * yscale)
+   self.bar:draw()
 
    local offset = 0
    if self.direction < 0 then
