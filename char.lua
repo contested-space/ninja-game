@@ -25,9 +25,9 @@ function Char:new(x,y)
 end
 
 function Char:update(dt)
-   self.bar:update(dt)
-
    self.active = false
+
+   self.animation.currentTime = self.animation.currentTime + dt
 
    if love.keyboard.isDown("s") then
       -- left
@@ -43,16 +43,21 @@ function Char:update(dt)
       self.x = self.x + self.speed * dt
    end
 
-
-   if love.keyboard.isDown("a") and not false then
+   if love.keyboard.isDown("a") and
+      self.dash:canUse() and not self.dashing then
       -- dash left
+      self.dash:use()
    end
 
-   if love.keyboard.isDown("l") and not false then
+   if love.keyboard.isDown("l") and
+      self.dash:canUse() and not self.dashing then
       -- dash right
+      self.dash:use()
    end
 
-   self.animation.currentTime = self.animation.currentTime + dt
+   self.dashing = false
+
+   self.dash:update(dt)
 end
 
 function Char:draw()

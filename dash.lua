@@ -34,7 +34,17 @@ function Dash:use()
 end
 
 function Dash:update(dt)
-   self.current = self.current + dt
+   self.tick = self.tick + dt
+
+   print(self.tick)
+
+   while self.current < self.count and
+         self.tick > self.cooldown do
+
+      self.current = self.current + 1
+      self.tick = self.tick - self.cooldown
+
+   end
 end
 
 function Dash:draw()
