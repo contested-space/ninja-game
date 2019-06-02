@@ -17,6 +17,8 @@ function Dash:new(x, y)
 
    -- seconds
    self.cooldown = 2
+   self.useCooldownSetting = 0.5
+   self.useCooldown = 0
 
    self.tick = 0
 
@@ -24,12 +26,13 @@ function Dash:new(x, y)
 end
 
 function Dash:canUse()
-   return self.current > 0
+   return self.current > 0 and self.useCooldown <= 0
 end
 
 function Dash:use()
    if self.current > 0 then
       self.current = self.current - 1
+      self.useCooldown = self.useCooldownSetting
    end
 end
 
@@ -43,7 +46,12 @@ function Dash:update(dt)
 
       self.current = self.current + 1
       self.tick = self.tick - self.cooldown
+   end
 
+   -- used, cooldown stuff
+   self.useCooldown = self.useCooldown - dt
+   if self.useCooldown < 0 then
+      self.useCooldown = 0
    end
 end
 

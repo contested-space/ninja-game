@@ -18,7 +18,6 @@ function Char:new(x,y)
    obj.speed = 100 * xscale
    obj.direction = 1
 
-   obj.dashing = false
    obj.dash = Dash:new(10, 10)
 
    return obj
@@ -43,19 +42,15 @@ function Char:update(dt)
       self.x = self.x + self.speed * dt
    end
 
-   if love.keyboard.isDown("a") and
-      self.dash:canUse() and not self.dashing then
+   if love.keyboard.isDown("a") and self.dash:canUse() then
       -- dash left
       self.dash:use()
    end
 
-   if love.keyboard.isDown("l") and
-      self.dash:canUse() and not self.dashing then
+   if love.keyboard.isDown("l") and self.dash:canUse() then
       -- dash right
       self.dash:use()
    end
-
-   self.dashing = false
 
    self.dash:update(dt)
 end
