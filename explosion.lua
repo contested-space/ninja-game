@@ -5,9 +5,9 @@ function Explosion:new(x, y, dur)
    local obj
    obj = {}
    setmetatable(obj, Explosion)
-   obj.img = love.graphics.newImage("img/Scene.png")
+   obj.img = love.graphics.newImage("img/Explodey.png")
    obj.duration = dur
-   obj.animation = newAnimation(obj.img, obj.img:getWidth()/31, obj.img:getHeight(),  obj.duration)
+   obj.animation = newAnimation(obj.img, obj.img:getWidth()/3, obj.img:getHeight(),  obj.duration)
    obj.x = x
    obj.y = y
    obj.w = obj.img:getWidth()
