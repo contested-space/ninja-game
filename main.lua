@@ -7,6 +7,10 @@ require "score"
 require "intro"
 
 function love.load()
+   ninjaTheme = love.audio.newSource("snd/move-in-ninja.ogg", "stream")
+   ninjaTheme:setLooping(true)
+   ninjaTheme:play()
+
    love.graphics.setDefaultFilter("nearest", "nearest", 1)
 
    score = Score:new(10, 10)
@@ -37,7 +41,7 @@ function love.load()
 
    intro_animation = Intro:new(intro_duration)
 
-   
+
    updateable = {gen, char, intro_animation}
 
    drawable = {
@@ -48,7 +52,7 @@ function love.load()
    delay = 0
    last = love.timer.getTime() + intro_animation.duration
    start = last
-   
+
 end
 
 function love.update(dt)
@@ -77,8 +81,8 @@ function love.update(dt)
 	 start = love.timer.getTime()
 	 last = start
       end
-      
-      
+
+
       if love.timer.getTime() > last then
 
 	 gameState = "main"
