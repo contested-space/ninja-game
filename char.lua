@@ -122,3 +122,19 @@ function Char:draw()
       yscale,
       self.width, 0)
 end
+
+function Char:getY()
+   return self.y
+end
+
+function Char:getX()
+   return self.x
+end
+
+function Char:getHeight()
+   return self.h
+end
+
+function Char:getWidth()
+   return self.w
+end

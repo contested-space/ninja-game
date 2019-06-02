@@ -35,6 +35,10 @@ function Obstacle:update(dt)
    if self.y > windowHeight then
       gen:destroy(self)
    end
+   if self:collidesWith(char) then
+      score.score = score.score - 1
+      gen:destroy(self)
+   end
 end
 
 
