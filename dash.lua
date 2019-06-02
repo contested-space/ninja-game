@@ -37,13 +37,12 @@ function Dash:use()
 end
 
 function Dash:update(dt)
-   self.tick = self.tick + dt
-
-   print(self.tick)
+   if self.current < self.count then
+      self.tick = self.tick + dt
+   end
 
    while self.current < self.count and
          self.tick > self.cooldown do
-
       self.current = self.current + 1
       self.tick = self.tick - self.cooldown
    end
