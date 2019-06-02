@@ -1,3 +1,5 @@
+require "explosion"
+
 Obstacle = {}
 Obstacle.__index = Obstacle
 
@@ -20,31 +22,46 @@ function Obstacle:new(position, delay, object)
    o.delay = delay
    o.start_time = love.timer.getTime()
 
+   o.exploding = false
+   o.explosion_dur = 1
+   o.expiration = 0
+
    return o
 end
 
 
 function Obstacle:update(dt)
-   if love.timer.getTime() > self.start_time + self.delay then
-      -- self.y = self.y + self.speed * dt
+   if not self.exploding then
+      if love.timer.getTime() > self.start_time + self.delay then
+	 -- self.y = self.y + self.speed * dt
 
-      self.y = self.y + dt * (self.velocity + dt * acceleration / 2)
-      self.velocity = self.velocity + dt * acceleration
-      
-   end
-   if self.y > windowHeight then
+	 self.y = self.y + dt * (self.velocity + dt * acceleration / 2)
+	 self.velocity = self.velocity + dt * acceleration
+	 
+      end
+      if self.y > windowHeight then
+	 gen:destroy(self)
+      end
+      if self:collidesWith(char) then
+	 score.score = score.score - 1
+	 -- gen:destroy(self)
+	 self:explode()
+      end
+   elseif love.timer.getTime() > self.expiration then
       gen:destroy(self)
-   end
-   if self:collidesWith(char) then
-      score.score = score.score - 1
-      gen:destroy(self)
+   else
+      self.explosion:update(dt)
    end
 end
 
 
 function Obstacle:draw()
    -- love.graphics.rectangle("fill", self.x, self.y, self.width, self.height)
-   love.graphics.draw(self.imageFile, self.x, self.y, 0, xscale, yscale, 0, 0)
+   if not self.exploding then
+      love.graphics.draw(self.imageFile, self.x, self.y, 0, xscale, yscale, 0, 0)
+   else
+      self.explosion:draw()
+   end
 end
 
 function Obstacle:collidesWith(other)
@@ -100,4 +117,10 @@ function selectObject(object)
 
    return objects[object]
    --return "img/Bawks.png"
+end
+
+function Obstacle:explode()
+   self.exploding = true
+   self.explosion = Explosion:new(self.x, self.y, self.explosion_dur)
+   self.expiration = self.explosion_dur + love.timer.getTime()
 end
