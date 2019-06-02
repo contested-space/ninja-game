@@ -2,7 +2,6 @@ Obstacle = {}
 Obstacle.__index = Obstacle
 
 function Obstacle:new(position, delay, object)
-   print(object)
    local o
    o = {}
    setmetatable(o, Obstacle)
@@ -10,7 +9,7 @@ function Obstacle:new(position, delay, object)
    imageFile = love.graphics.newImage(asset)
    o.imageFile = imageFile
    o.x = position * windowWidth
-   o.y = -100
+   o.y = -300
    o.width = imageFile:getWidth() * xscale
    o.height = imageFile:getHeight() * yscale
    
