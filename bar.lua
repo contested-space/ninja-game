@@ -1,3 +1,5 @@
+-- TODO: This is most likely unused
+
 Bar = {}
 Bar.__index = Bar
 

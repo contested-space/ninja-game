@@ -1,6 +1,7 @@
 require "settings"
 require "utils"
 require "bar"
+require "dash"
 
 Char = {}
 Char.__index = Char
@@ -10,13 +11,15 @@ function Char:new(x,y)
    setmetatable(obj,Char)
 
    obj.img = love.graphics.newImage("img/ninja.png")
-   obj.animation = newAnimation(obj.img, 32, 64, 0.5)
+   obj.animation = newAnimation(obj.img, 32, 49, 0.5)
    obj.x = x
    obj.y = y
    obj.w = 32
    obj.h = obj.img:getHeight()
    obj.speed = 100 * xscale
    obj.direction = 1
+
+   obj.dashing = false
 
    local barWidth = 50 * xscale
    local barHeight = 10 * yscale
@@ -26,6 +29,8 @@ function Char:new(x,y)
       windowHeight - barHeight,
       barWidth, barHeight - 10,
       0, 100)
+
+   obj.dash = Dash:new(10, 10)
 
    return obj
 end
@@ -98,6 +103,7 @@ function Char:draw()
    --    self.x, self.y,
    --    self.w * xscale, self.h * yscale)
    self.bar:draw()
+   self.dash:draw()
 
    local offset = 0
    if self.direction < 0 then

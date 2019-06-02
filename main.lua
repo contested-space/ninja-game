@@ -21,7 +21,7 @@ function love.load()
    gameState = "main"
 
    background = Background:new()
-   char = Char:new(windowWidth / 2, windowHeight * 0.53)
+   char = Char:new(windowWidth / 2, windowHeight * 0.57)
 
    -- obstacle0 = Obstacle:new(2, 10)
    -- obstacle1 = Obstacle:new(5, 10)
