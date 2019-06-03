@@ -1,7 +1,6 @@
 require "settings"
 require "utils"
 
-
 Intro = {}
 Intro.__index = Intro
 
@@ -27,28 +26,15 @@ function Intro:update(dt)
 end
 
 function Intro:draw(dt)
-   local offset = 0
+   local spriteNum = math.floor(
+      (self.animation.currentTime / (self.animation.duration ))
+         * #self.animation.quads) % #self.animation.quads + 1
 
-   -- if not self.active then
-   --    love.graphics.draw(
-   --       self.animation.spritesheet,
-   --       self.animation.quads[1],
-   --       self.x + offset, self.y,
-   --       0,
-   --       xscale,
-   --       yscale)
-   --    return
-   -- end
-   
-      local spriteNum = math.floor(
-	 (self.animation.currentTime / (self.animation.duration ))
-	    * #self.animation.quads) % #self.animation.quads + 1
-
-      love.graphics.draw(
-	 self.animation.spritesheet,
-	 self.animation.quads[spriteNum],
-	 self.x + offset, self.y, 0,
-	 xscale,
-	 yscale,
-	 self.width, 0)
+   love.graphics.draw(
+      self.animation.spritesheet,
+      self.animation.quads[spriteNum],
+      self.x, self.y, 0,
+      xscale,
+      yscale,
+      self.width, 0)
 end

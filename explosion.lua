@@ -18,23 +18,9 @@ end
 
 function Explosion:update(dt)
    self.animation.currentTime = self.animation.currentTime + dt
-
 end
 
 function Explosion:draw(dt)
-      local offset = 0
-
-   -- if not self.active then
-   --    love.graphics.draw(
-   --       self.animation.spritesheet,
-   --       self.animation.quads[1],
-   --       self.x + offset, self.y,
-   --       0,
-   --       xscale,
-   --       yscale)
-   --    return
-   -- end
-   
       local spriteNum = math.floor(
 	 (self.animation.currentTime / (self.animation.duration ))
 	    * #self.animation.quads) % #self.animation.quads + 1
@@ -42,7 +28,7 @@ function Explosion:draw(dt)
       love.graphics.draw(
 	 self.animation.spritesheet,
 	 self.animation.quads[spriteNum],
-	 self.x + offset, self.y, 0,
+	 self.x, self.y, 0,
 	 xscale,
 	 yscale,
 	 self.width, 0)

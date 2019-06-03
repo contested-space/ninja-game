@@ -26,17 +26,10 @@ function love.load()
    gridWidth = 10
    gameState = "intro"
    intro_duration = 10
-   game_duration = 5
+   game_duration = 60
 
    background = Background:new()
    char = Char:new(windowWidth / 2, windowHeight * 0.57)
-
-   -- obstacle0 = Obstacle:new(2, 10)
-   -- obstacle1 = Obstacle:new(5, 10)
-   -- obstacle2 = Obstacle:new(7, 10)
-
-   -- updateable = {obstacle0, obstacle1, obstacle2}
-   -- drawable = {obstacle0, obstacle1, obstacle2}
 
    gen = ObstacleGenerator:new()
    --gen:trigger_full_line()
@@ -106,7 +99,7 @@ function love.draw()
    elseif gameState == "game_over" then
       game_over_screen:draw()
    end
-      
+
 end
 
 function start_game()
